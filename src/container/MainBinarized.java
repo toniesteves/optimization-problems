@@ -31,7 +31,6 @@ public class MainBinarized {
 			IloLinearNumExpr funcaoObjetivo = modelo.linearNumExpr();
 			for (int i = 0; i < ContainerInfo.n_intens; i++) {
 				for (int j = 0; j < ContainerInfo.k_containers; j++) {
-
 					for (int m = 0; m <= ContainerInfo.limite_unidades; m++) {
 
 						funcaoObjetivo.addTerm(ContainerInfo.lucros[i] * m, x[i][j][m]);
@@ -40,10 +39,7 @@ public class MainBinarized {
 				}
 			}
 
-			// Função Objetivo
 			modelo.addMaximize(funcaoObjetivo);
-
-//			Restrição (6)
 
 			for (int i = 0; i < ContainerInfo.n_intens; i++) {
 
@@ -92,7 +88,6 @@ public class MainBinarized {
 				modelo.addLe(restricaoDeVolume, ContainerInfo.cap_volumetrica);
 			}
 
-			// resolver...
 			if (modelo.solve()) {
 				System.out.println("Status:\t" + modelo.getStatus());
 

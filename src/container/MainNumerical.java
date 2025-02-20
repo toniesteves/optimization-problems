@@ -15,7 +15,7 @@ public class MainNumerical {
 			// Criando o modelo
 			IloCplex modelo = new IloCplex();
 
-			// Variaveis de decisão
+			// Decsion vars
 			IloNumVar containers[][] = new IloNumVar[ContainerInfo.n_intens][ContainerInfo.k_containers];
 			int lower_bound = 0;
 			int upper_bound = ContainerInfo.limite_unidades;
@@ -26,9 +26,8 @@ public class MainNumerical {
 				}
 			}
 
-			
-			// Restrições
-			// Restrição 1: Cada conteiner k possui a mesma capacidade de volume cv.
+			// Constraints
+
 			for (int container = 0; container < ContainerInfo.k_containers; container++) {
 
 				IloLinearNumExpr restricaoDeVolume = modelo.linearNumExpr();
@@ -41,10 +40,6 @@ public class MainNumerical {
 				modelo.addLe(restricaoDeVolume, ContainerInfo.cap_volumetrica);
 			}
 
-			
-			
-			// Restrição 2: Cada conteiner k possui a mesma capacidade de carga cc.
-
 			for (int container = 0; container < ContainerInfo.k_containers; container++) {
 
 				IloLinearNumExpr restricaoDeCarga = modelo.linearNumExpr();
@@ -56,19 +51,14 @@ public class MainNumerical {
 
 				modelo.addLe(restricaoDeCarga, ContainerInfo.cap_carga);
 			}
-			
-			
-			// Adicionando Funçao Objetivo
 
+			// FO
 			IloLinearNumExpr funcaoObjetivo = modelo.linearNumExpr();
 			for (int item = 0; item < ContainerInfo.n_intens; item++) {
 
 				for (int container = 0; container < ContainerInfo.k_containers; container++) {
-					
-//					for (int qtd =0; qtd < ContainerInfo.m; qtd++) {
-						
-						funcaoObjetivo.addTerm(ContainerInfo.lucros[item], containers[item][container]);
-//					}
+
+					funcaoObjetivo.addTerm(ContainerInfo.lucros[item], containers[item][container]);
 
 				}
 			}
